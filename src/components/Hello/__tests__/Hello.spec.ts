@@ -1,13 +1,13 @@
 import { render, screen } from "@testing-library/vue";
 import { describe, it, expect } from "vitest";
-import TheView from "./TheView.vue";
+import Hello from "../Hello.vue";
 
 describe("TheView", () => {
   const viewText = "Hello from inside a view";
 
   it("render span correctly", async () => {
     const viewId = "viewId";
-    render(TheView, {
+    render(Hello, {
       props: { element: "span", id: viewId },
       slots: { default: viewText },
     });
@@ -20,7 +20,7 @@ describe("TheView", () => {
   });
 
   it("snap shot matches", () => {
-    const wrapper = render(TheView, { props: { element: "div" } });
+    const wrapper = render(Hello, { props: { element: "div" } });
     expect(wrapper).toMatchSnapshot();
   });
 });

@@ -1,16 +1,30 @@
 <script lang="ts">
-import TheView from "./components/TheView.vue";
-import MyPokemon from "./components/MyPokemon.vue";
-export default {
+import { defineComponent } from "vue";
+
+import Hello from "./components/Hello/Hello.vue";
+import MyPokemon from "./components/ApiResponse/ApiResponse.vue";
+export default defineComponent({
   components: {
-    TheView,
+    Hello,
     MyPokemon,
   },
-};
+});
 </script>
 
 <template>
-  <h1>Ejoppa!</h1>
-  <TheView element="div">Hello from Vue!</TheView>
-  <MyPokemon />
+  <h1>Vitest.</h1>
+  <section>
+    <Hello element="div">Hello from Vue!</Hello>
+  </section>
+  <section>
+    <MyPokemon />
+  </section>
 </template>
+
+<style>
+#app section {
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+}
+</style>
