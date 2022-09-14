@@ -6,7 +6,7 @@ import "whatwg-fetch";
 
 export const restHandlers = [
   rest.get("https://pokeapi.co/api/v2/pokemon", (req, res, ctx) => {
-    return res(ctx.status(200), pokemonResponse as any);
+    return res(ctx.status(200), ctx.json(pokemonResponse));
   }),
 ];
 const server = setupServer(...restHandlers);
