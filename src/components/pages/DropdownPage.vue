@@ -1,9 +1,15 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-export default defineComponent({});
+import DropdownCanvas from "../Dropdown/DropdownCanvas.vue";
+
+export default defineComponent({
+  components: { DropdownCanvas },
+});
 </script>
 
 <template>
-  <h1>Dropdown.</h1>
+  <dropdown-canvas></dropdown-canvas>
 </template>
+
+<style scoped></style>

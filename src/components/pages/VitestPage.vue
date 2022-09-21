@@ -21,7 +21,7 @@ export default defineComponent({
   </section>
 </template>
 
-<style>
+<style scoped>
 #app section {
   margin-bottom: 20px;
   padding-bottom: 10px;
