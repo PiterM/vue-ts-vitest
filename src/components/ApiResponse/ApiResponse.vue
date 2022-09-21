@@ -1,30 +1,19 @@
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
+import { ref } from "vue";
+import type IPokemon from "../../types/Pokemon";
 
-interface IPokemon {
-  name: string;
-}
-
-export default defineComponent({
-  data() {
-    return {
-      pokemons: [] as IPokemon[],
-    };
-  },
-  methods: {
-    async togglePokemons() {
-      if (this.pokemons.length === 0) {
-        const response = await fetch("https://pokeapi.co/api/v2/pokemon");
-        const responseJson = await response.json();
-        const data = responseJson.results;
-        this.pokemons = data;
-        console.log(responseJson);
-      } else {
-        this.pokemons = [];
-      }
-    },
-  },
-});
+const pokemons = ref<IPokemon[]>([]);
+const togglePokemons = async () => {
+  if (pokemons.value.length === 0) {
+    const response = await fetch("https://pokeapi.co/api/v2/pokemon");
+    const responseJson = await response.json();
+    const data = responseJson.results;
+    pokemons.value = data;
+    console.log(responseJson);
+  } else {
+    pokemons.value = [];
+  }
+};
 </script>
 
 <template>
