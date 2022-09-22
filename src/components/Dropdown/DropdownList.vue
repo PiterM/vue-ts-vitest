@@ -1,9 +1,5 @@
-<script lang="ts">
-import { defineComponent, ref } from "vue";
-export default defineComponent({});
-</script>
-
 <script setup lang="ts">
+import { ref } from "vue";
 const noModel = ref(false);
 </script>
 

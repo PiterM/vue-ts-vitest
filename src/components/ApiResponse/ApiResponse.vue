@@ -1,10 +1,6 @@
-<script lang="ts">
-import type IPokemon from "../../types/Pokemon";
-export default {};
-</script>
-
 <script setup lang="ts">
 import { ref } from "vue";
+import type IPokemon from "../../types/Pokemon";
 
 const pokemons = ref<IPokemon[]>([]);
 const togglePokemons = async () => {

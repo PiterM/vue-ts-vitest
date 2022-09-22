@@ -1,20 +1,12 @@
-<script lang="ts">
-import { defineComponent } from "vue";
-
-import Hello from "../Hello/Hello.vue";
+<script setup lang="ts">
+import MyHello from "../Hello/MyHello.vue";
 import MyPokemon from "../ApiResponse/ApiResponse.vue";
-export default defineComponent({
-  components: {
-    Hello,
-    MyPokemon,
-  },
-});
 </script>
 
 <template>
   <h1>Vitest.</h1>
   <section>
-    <Hello element="div">Hello from Vue!</Hello>
+    <MyHello element="div">Hello from Vue!</MyHello>
   </section>
   <section>
     <MyPokemon />

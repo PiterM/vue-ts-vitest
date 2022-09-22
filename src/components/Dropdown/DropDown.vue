@@ -17,19 +17,13 @@ let listRectPosition = reactive({
 });
 
 onMounted(() => {
-  const { left, top, height, width } =
-    buttonRef.value.children[0].getBoundingClientRect();
+  const buttonElementRef = (buttonRef?.value as any).children[0];
+  const { height, width } = buttonElementRef.getBoundingClientRect();
   console.log({ height, width });
 
   listRectPosition.left = `${Math.floor(width)}px`;
   listRectPosition.top = `${Math.floor(height)}px`;
 });
-</script>
-
-<script lang="ts">
-import { defineComponent } from "vue";
-
-export default defineComponent({});
 </script>
 
 <style scoped lang="sass">

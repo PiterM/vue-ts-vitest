@@ -1,14 +1,8 @@
-<script lang="ts">
+<script setup lang="ts">
 import DropDown from "./DropDown.vue";
 import DropdownList from "./DropdownList.vue";
-import { defineComponent, ref } from "@vue/runtime-core";
+import { ref } from "vue";
 
-export default defineComponent({
-  components: { DropDown, DropdownList },
-});
-</script>
-
-<script setup lang="ts">
 const listVisible = ref(false);
 
 const toggleList = () => {
