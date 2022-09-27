@@ -23,7 +23,6 @@ function toggleIsOpen() {
 
 function setFocusToFirstChild() {
   if (isOpen.value && containerRef.value) {
-    console.log("asdf");
     const el = containerRef.value.querySelector(
       "[data-focus]"
     ) as HTMLElement | null;

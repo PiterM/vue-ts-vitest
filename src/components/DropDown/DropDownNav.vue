@@ -2,15 +2,15 @@
   <div
     class="dropdown-nav"
     ref="containerRef"
-    @keyup.down="onKeyDown"
-    @keyup.up="onKeyUpFunction"
+    @keydown.down="onKeyDownHandler"
+    @keydown.up="onKeyUpHandler"
   >
-    <template v-if="items && items.length">
+    <template v-if="focusItems && focusItems.length">
       <DropDownNavItem
-        v-for="(item, index) in items"
+        v-for="item in focusItems"
         :key="item.id"
         :separator="item.isSeparator"
-        :index="item.isSeparator ? index + 1 : index"
+        :focusIndex="!item.isSeparator ? item.focusIndex : undefined"
         v-model:current-focused="currentIndex"
         :name="item.name"
       />
@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
 // import type DropDownNavProps from "./DropDownNavProps";
 import DropDownNavItem from "./DropDownNavItem.vue";
@@ -30,20 +30,42 @@ type DropDownNavProps = {
     name?: string;
     id: string;
     isSeparator?: boolean;
+    focusIndex?: number;
   }[];
 };
 
 const props = defineProps<DropDownNavProps>();
 const containerRef = ref<HTMLElement | null>(null);
 const emit = defineEmits(["first-element-selected"]);
-const { isMinIndexSelected, currentIndex, onKeyDown, onKeyUp } = useKeyboardNav(
-  props.items.length
+
+let focusIndex = 0;
+let separatorsCount = 0;
+const focusItems = computed(() =>
+  props.items.map((el) => {
+    let newElement;
+    if (!el.isSeparator) {
+      newElement = { ...el, focusIndex };
+      focusIndex++;
+      return newElement;
+    } else {
+      separatorsCount++;
+      return el;
+    }
+  })
 );
 
-function onKeyUpFunction() {
+const { isMinIndexSelected, currentIndex, onKeyDown, onKeyUp } = useKeyboardNav(
+  focusItems.value.length - separatorsCount
+);
+
+function onKeyUpHandler() {
   onKeyUp();
   if (isMinIndexSelected.value) {
     emit("first-element-selected");
   }
+}
+
+function onKeyDownHandler() {
+  onKeyDown();
 }
 </script>

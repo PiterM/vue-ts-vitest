@@ -2,7 +2,6 @@
   <div class="dropdown-nav-items">
     <hr v-if="separator" />
     <slot v-else-if="$slots.default"></slot>
-
     <template v-else>
       <a
         href="#"
@@ -11,7 +10,7 @@
         ref="focusTrigger"
         class="dropdown-nav-item-focus-element"
       >
-        {{ name }} --- {{ index }}
+        {{ name }} | {{ focusIndex }}
       </a>
     </template>
   </div>
@@ -33,9 +32,9 @@ const props = defineProps({
     type: String,
     default: "",
   },
-  index: {
-    type: [Number],
-    required: true,
+  focusIndex: {
+    type: Number,
+    required: false,
   },
   currentFocused: {
     type: Number,
@@ -49,15 +48,14 @@ const focusTrigger = ref();
 watch(
   () => props.currentFocused,
   () => {
-    if (props.currentFocused === props.index && !props.separator) {
+    if (props.currentFocused === props.focusIndex) {
       focusTrigger.value.focus();
     }
   }
 );
 
 function updateFocus() {
-  console.log("updateFocus", props.index);
-  emit("update:current-focused", props.index);
+  emit("update:current-focused", props.focusIndex);
 }
 </script>
 

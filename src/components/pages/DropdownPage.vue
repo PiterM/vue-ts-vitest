@@ -24,7 +24,8 @@ const items = [
       <button
         ref="buttonTriggerRef"
         @click="toggleIsOpen"
-        @keyup.down="setFocusToFirstChild"
+        @keydown.down="setFocusToFirstChild"
+        class="btn btn-light"
       >
         Trigger Dropdown
       </button>
