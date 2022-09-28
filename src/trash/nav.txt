@@ -1,0 +1,60 @@
+<template>
+  <div
+    class="dropdown-nav"
+    ref="container"
+    @keyup.down.capture="onKeyDown"
+    @keyup.up.capture="onKeyUpFunction"
+    @keyup.left="onKeyLeft"
+  >
+    <template v-if="items && items.length">
+      <DropdownNavItem
+        v-for="(item, index) in items"
+        :key="item.id"
+        :separator="item.isSeparator"
+        :index="item.isSeparator ? index + 1 : index"
+        v-model:current-focused="currentIndex"
+        :children="item.children"
+        :name="item.name"
+      />
+    </template>
+    <!--        <template v-else-if="$slots">-->
+    <!--            <slot/>-->
+    <!--        </template>-->
+  </div>
+</template>
+<script setup lang="ts">
+import DropdownNavItem from "@/components/dropdown-nav-item.vue";
+import { ref, defineEmits } from "vue";
+import useKeyboardNav from "@/usables/useKeyboardNav";
+interface Props {
+  items: {
+    name?: string;
+    id: string;
+    isSeparator: boolean;
+    children?: [];
+  }[];
+  isNested?: boolean;
+}
+const props = defineProps<Props>();
+const container = ref<HTMLElement | null>(null);
+const emit = defineEmits(["firstElementSelected"]);
+const { isMinIndexSelected, currentIndex, onKeyDown, onKeyUp } = useKeyboardNav(
+  props.items.length
+);
+function onKeyUpFunction() {
+  onKeyUp();
+  if (isMinIndexSelected.value && !props.isNested) {
+    emit("firstElementSelected");
+  }
+}
+function onKeyLeft() {
+  if (isMinIndexSelected.value) {
+    emit("firstElementSelected");
+  }
+}
+</script>
+<style lang="scss">
+.dropdown-nav {
+  //min-width: 300px;
+}
+</style>

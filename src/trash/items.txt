@@ -1,0 +1,126 @@
+<template>
+  <div class="dropdown-nav-item">
+    <hr v-if="separator" />
+    <slot v-else-if="$slots.default"> </slot>
+    <template v-else>
+      <a
+        href="#"
+        data-focus
+        @focus="updateFocus"
+        ref="focusTrigger"
+        @keyup.right="focusOnChildren"
+        class="dropdown-nav-item-focus-element"
+        >{{ name }} --- {{ index }}</a
+      >
+      <DropdownNav
+        v-if="children.length"
+        :items="children"
+        is-nested
+        ref="container"
+        @first-element-selected="onBlur"
+        class="child-items"
+        :class="{ 'is-open': isChildFocused }"
+      />
+    </template>
+  </div>
+</template>
+<script setup lang="ts">
+import { onMounted, ref, watch, nextTick } from "vue";
+import DropdownNav from "@/components/dropdown-nav.vue";
+const props = defineProps({
+  separator: {
+    type: Boolean,
+    default: false,
+  },
+  hasChildren: {
+    type: Boolean,
+    default: false,
+  },
+  children: {
+    type: Array,
+    default() {
+      return [];
+    },
+  },
+  name: {
+    type: String,
+    default: "",
+  },
+  index: {
+    type: [Number, null],
+    required: true,
+  },
+  currentFocused: {
+    type: Number,
+    default: false,
+  },
+});
+const emit = defineEmits(["update:current-focused"]);
+const focusTrigger = ref();
+const isChildFocused = ref(false);
+const container = ref<HTMLElement | null>(null);
+// function updateIndexDown() {
+//     emit('update:current-focus', props.index + 1);
+// }
+//
+// function updateIndexUp() {
+//     emit('update:current-focus', props.index - 1);
+// }
+//
+// function setIndex() {
+//     emit('update:current-focus', props.index);
+// }
+watch(
+  () => props.currentFocused,
+  () => {
+    if (props.currentFocused === props.index && !props.separator) {
+      focusTrigger.value.focus();
+    }
+  }
+);
+function updateFocus() {
+  console.log("updateFocus", props.index);
+  emit("update:current-focused", props.index);
+}
+function onBlur() {
+  console.log("focusTrigger.value.$el", focusTrigger.value.$el);
+  focusTrigger.value.focus();
+  isChildFocused.value = false;
+}
+function focusOnChildren() {
+  isChildFocused.value = true;
+  nextTick(() => {
+    container.value.$el.querySelector("[data-focus]").focus();
+  });
+}
+</script>
+<style lang="scss" scoped>
+[data-focus] {
+  &:hover,
+  &:focus {
+    border: 1px solid red;
+  }
+}
+.dropdown-nav-item {
+  position: relative;
+  &:hover {
+    .child-items {
+      display: block;
+    }
+  }
+}
+.dropdown-nav-item-focus-element:focus + .child-items {
+  display: block;
+}
+.child-items {
+  position: absolute;
+  left: 100%;
+  padding-left: 20px;
+  width: max-content;
+  top: 0;
+  display: none;
+  &.is-open {
+    display: block;
+  }
+}
+</style>

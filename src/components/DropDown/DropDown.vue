@@ -31,9 +31,11 @@ function setFocusToFirstChild() {
 }
 </script>
 
-<style scoped lang="sass">
+<style lang="sass">
 .dropdown-content
-  width: 170px
-  padding: 20px
+  background-color: #fff
+  width: 200px
+  padding: 5px 0
   border: 1px solid #000
+  position: relative
 </style>
